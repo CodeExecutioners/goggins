@@ -1,0 +1,46 @@
+application: dancingoggin
+version: sprint1
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /favicon\.ico
+  static_files: favicon.ico
+  upload: favicon\.ico
+
+- url: /css
+  static_dir: css
+
+- url: /js
+  static_dir: js
+  
+- url: /images
+  static_dir: images
+  
+- url: /sass
+  static_dir: sass 
+  
+- url: /contact
+  script: contact.app 
+ 
+- url: /resources
+  script: resources.app 
+  
+- url: /(photos|dances)
+  script: construction.app 
+  
+- url: /calendar
+  script: last.app 
+ 
+- url: /index
+  script: main.cpp
+ 
+- url: .*
+  script: main.app
+
+libraries:
+- name: jinja2
+  version: latest
+- name: webapp2
+  version: latest
