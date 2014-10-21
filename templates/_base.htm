@@ -21,7 +21,7 @@
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-wide.css" />
 		</noscript>
-		<script type="text/javascript">
+<!--		<script type="text/javascript">
 			function hideshow(which){
 				link1 = document.getElementById('link1')
 				link2 = document.getElementById('link2')
@@ -33,42 +33,32 @@
 				} else if (which.id=='link2') {
 					link1.style.display="none"
 					link2.style.display="block"
-					link3.style.disoplay="none"
+					link3.style.display="none"
 				} else if (which.id=='link3') {
 					link1.style.display="none"
 					link2.style.display="none"
 					link3.style.display="block"
 				}
 			}
-		</script>
+		</script> -->
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
 	</head>
 	<body>
+		<!--
+			<div id="header">	
 
-		<!-- Header -->
-			<div id="header">
-						
-				<!-- Logo -->
-					<h1><a href="/" id="logo">Goggin Ballroom Dancing <em>Ballroom, Latin, & Swing Lessons
+					<h1><a href="/" id="logo">Goggin Ballroom Dancing <em>Ballroom, Latin, & Swing Lessons</em></a></h1>
 
-</em></a></h1>
-				
-				<!-- Nav -->
 					<nav id="nav">
 						<ul>
 							<li class="current"><a href="/">Home</a></li>
 							<li>
 								<a href="">Dances</a>
-								
-										
-										<ul>
-											<li><a href="dances">Ballroom</a></li>
-											<li><a href="dances">Latin</a></li>
-											<li><a href="dances">Swing</a></li>
-									
-										</ul>
-									
-								
+									<ul>
+										<li><a href="dances">Ballroom</a></li>
+										<li><a href="dances">Latin</a></li>
+										<li><a href="dances">Swing</a></li>			
+									</ul>
 							</li>
 							<li><a href="contact">Contact</a></li>
 							<li><a href="resources">Resources</a></li>
@@ -76,7 +66,7 @@
 							<li><a href="calendar">Calendar</a></li>
 						</ul>
 					</nav>
-
+		-->	
 			</div>
 			<div id="bodycontent">
 			  {% block bodycontent %}
