@@ -1,5 +1,5 @@
 application: dancingoggin
-version: sprint1
+version: sprint2
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -19,20 +19,24 @@ handlers:
   static_dir: images
   
 - url: /sass
-  static_dir: sass 
+  static_dir: sass
+  
   
 - url: /contact
   script: contact.app 
  
-- url: /resources
+- url: /resources 
   script: resources.app 
   
 - url: /(photos|dances)
   script: construction.app 
   
-- url: /calendar
-  script: last.app 
- 
+- url: /lessons
+  script: lessons.app 
+  
+- url: /login
+  script: login.app
+
 - url: /index
   script: main.cpp
  
