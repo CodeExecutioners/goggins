@@ -26,32 +26,25 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 	
-class MainHandler(webapp2.RequestHandler):
-    def get(self):
-        #self.response.write('Hello world!')
+class LoginHandler(webapp2.RequestHandler):
+	def get(self):
+		#insert a user
+		#models.Users.insertUser('testUsername', 'testPassword', 'testEmail@dancingoggin.appspot.com')
 		template_values ={}
 		path = self.request.path
-		template = JINJA_ENVIRONMENT.get_template('templates/index.html')
+		template = JINJA_ENVIRONMENT.get_template('templates/login.html')
 		self.response.write(template.render(template_values))
-
-class SubmitForm(webapp2.RequestHandler):
 	def post(self):
-		firstname = self.request.get('firstname')
-		lastname = self.request.get('lastname')
-		email = self.request.get('email')
-		phone = self.request.get('phone')
-		message = self.request.get('message')
-		emailItem = models.Email(firstname = firstname,lastname = lastname,	email = email,phone = phone,message = message)
-		emailItem.put()
-		self.redirect('/')
-
+		username = self.request.get('username')
+		password = self.request.get('password')
+		loginSuccess = models.Users.loginProcess(username, password)
+		if(loginSuccess):
+			self.redirect('/')
+		else:
+			self.redirect('/login')
 		
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
-	('/submit', SubmitForm),
+    ('/login', LoginHandler),
+	
 
 ], debug=True)
-
-
-
-
