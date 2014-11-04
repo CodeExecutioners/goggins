@@ -14,6 +14,8 @@
 <h2 style="text-align:center">Calendar and Events</h2>
 <!--<img src="images/Moose.jpg" alt="Smiley face" align="middle">-->
 
+<input type="submit" id="dropInLessonsSaveTable"></input>
+<button id="btnAddDropInLesson">New</button>
 <table id="dropInLessons" class="display" cellspacing="0" width="100%">
         <thead>
 			
@@ -24,7 +26,7 @@
                 <th>Time</th>
                 <th>Location</th>
                 <th>Cost</th>
-               
+                <th>Options</th>
 				
             </tr>
         </thead>
@@ -40,14 +42,20 @@
 				<td>{{lesson.datetime}}</td>
 				<td>{{lesson.location}}</td>
 				<td>{{lesson.cost}}</td>
-			
+				<td><button class='btnEdit'value='Edit'>Edit</button></td>
 				
             </tr>
 			{% endfor %}
 		</tbody>
     </table>
 	
-
+	
+	
+	
+	
+	
+<input type="submit" id="groupLessonsSaveTable"></input>
+<button id="btnAddGroupLesson">New</button>
 <table id="groupLessons" class="display" cellspacing="0" width="100%">
         <thead>
 			
@@ -58,7 +66,7 @@
                 <th>Time</th>
                 <th>Location</th>
                 <th>Cost</th>
-               
+                <th>Options</th>
 				
             </tr>
         </thead>
@@ -74,7 +82,7 @@
 				<td>{{groupLesson.datetime}}</td>
 				<td>{{groupLesson.location}}</td>
 				<td>{{groupLesson.cost}}</td>
-				
+				<td><button class='btnEdit'value='Edit'>Edit</button></td>
 				
             </tr>
 			{% endfor %}

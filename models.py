@@ -3,12 +3,14 @@ import datetime
 import logging
 from google.appengine.ext import ndb
 
+
 class Lesson(ndb.Model):
 	"""Models an individual lesson"""
+	type = ndb.StringProperty()
 	city = ndb.StringProperty()
-	datetime = ndb.DateTimeProperty()
+	datetime = ndb.StringProperty()
 	location = ndb.StringProperty()
-	cost = ndb.FloatProperty()
+	cost = ndb.StringProperty()
 	
 	@classmethod
 	def getAllLessons(self):
@@ -16,6 +18,16 @@ class Lesson(ndb.Model):
 			return self.query()
 		except:
 			logging.error('getAllLessons failed')
+	
+	@classmethod
+	def getAllLessonsByType(self, type):
+		#Group, DropIn
+		try:
+			return self.query(self.type==type)
+		except:
+			logging.error('getAllLessonsByType failed')
+	
+	
 	
 	@classmethod
 	def getNLessons(self, n):
@@ -26,15 +38,39 @@ class Lesson(ndb.Model):
 	
 	#insert
 	@classmethod
-	def insertLesson(self, city, datetime, location, cost):
-		try:
-			lesson = self(city = city, datetime = datetime, location = location, cost = cost)
-			lesson.put()
-			logging.debug('insertLesson success')
-		except:
-			logging.error('insertLesson failed')
+	def insertLesson(self, type, city, datetime, location, cost):
+			logging.debug('insertLesson start')
+			try:
+				lesson = self(id = (type+city), type = type, city = city, datetime = datetime, location = location, cost = cost)
+				lesson.put()
+				logging.debug('insertLesson success')
+			except:
+				logging.error('insertLesson failed')
 		
+	
+	#insert
+	@classmethod
+	def updateLessonByID(self, type, city, datetime, location, cost):
+			try:
+				lesson_key = ndb.Key(self, (type+city))
+				logging.debug(lesson_key)
+				updated_lesson = lesson_key.get()
+				if(updated_lesson != None):
+					logging.debug('Updating record')
+					updated_lesson.type = type
+					updated_lesson.datetime = datetime
+					updated_lesson.location = location
+					updated_lesson.cost = cost
+					updated_lesson.put()
+					logging.debug('updateLesson success')
+				else:
+					logging.debug('Inserting new record')
+					self.insertLesson(type, city, datetime, location, cost)
+			except:
+				logging.error('updateLesson failed')
 		
+
+	
 	#delete
 	@classmethod
 	def deleteAllLessons(self):
