@@ -15,18 +15,19 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 	
-class LessonsPage(webapp2.RequestHandler):
+class AdminLessonsPage(webapp2.RequestHandler):
 	def get(self):
 		#models.Lesson.deleteAllLessons()
 		dropInlessons = models.Lesson.getAllLessonsByType('Drop')
 		groupLessons = models.Lesson.getAllLessonsByType('Group')
 		#get lesson by city
 		template_values ={'lessons':dropInlessons, 'groupLessons': groupLessons}
-		template = JINJA_ENVIRONMENT.get_template('templates/lessons.html')
+		template = JINJA_ENVIRONMENT.get_template('templates/adminLessons.html')
 		self.response.write(template.render(template_values))
 		
 	
 	def post(self):
+		#shouldn't really do this
 		
 		#get all the table data
 		jsonstring = self.request.body
@@ -35,6 +36,7 @@ class LessonsPage(webapp2.RequestHandler):
 		
 		#update or insert
 		for lesson in jsonObject:
+			models.Lesson.deleteAllLessons()
 			type = lesson['Type']
 			city = lesson['City']
 			date = lesson['Date']
@@ -48,5 +50,5 @@ class LessonsPage(webapp2.RequestHandler):
 		
 
 app = webapp2.WSGIApplication([
-			('/lessons', LessonsPage),
+			('/adminLessons', AdminLessonsPage),
 			],debug=True)
