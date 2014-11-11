@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+#
+# Copyright 2007 Google Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+import os
+import urllib
+import webapp2
+import jinja2
+import models
+
+from google.appengine.api import mail
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
+ 
+class EmailHandler(webapp2.RequestHandler):
+    def get(self):
+        path = self.request.path
+    def post(self):
+        user_address = "debrouta@uwec.edu"
+        sender_address = self.request.get("email")
+        subject = "Gift Certificate"
+        cust = self.request.get("cust")
+        print cust
+        amt = self.request.get("amount")
+        print amt
+        recipient = self.request.get("recipient")
+        print recipient
+        address = self.request.get("address")
+        print address
+        city = self.request.get("city")
+        print city
+        state = self.request.get("state")
+        print state
+        zip = self.request.get("zip")
+        print zip
+        if not mail.is_email_valid(sender_address):
+            # prompt user to enter a valid address
+            self.redirect('/InvalidMail')
+
+        else:
+            body = cust + " would like to place an order for a gift certificate in the amount of " + amt + "\n"
+            body += ("The gift certificate is for " + recipient + " and is to be sent to the address:\n")
+            body += ("\n" + address + "\n" + city + " " + state + " " + zip)
+            print body
+
+            mail.send_mail(sender_address, user_address, subject, body)
+
+app = webapp2.WSGIApplication([
+('/sendemail', EmailHandler),
+ 
+
+], debug=True)

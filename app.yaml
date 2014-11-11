@@ -1,7 +1,7 @@
 application: goggin-485
-version: sprint2
+version: dev
 runtime: python27
-api_version: dev
+api_version: 1
 threadsafe: yes
 
 handlers:
@@ -21,6 +21,8 @@ handlers:
 - url: /sass
   static_dir: sass
   
+- url: /sendemail
+  script: giftemail.app
   
 - url: /contact
   script: contact.app 
@@ -36,9 +38,12 @@ handlers:
   
 - url: /login
   script: login.app
+  
+- url: /gift
+  script: gift.app
 
 - url: /index
-  script: main.cpp
+  script: main.app
  
 - url: .*
   script: main.app
