@@ -1,0 +1,80 @@
+{% extends "templates/_base.htm" %}
+{% block bodycontent %}
+<link rel="stylesheet" href="css/gift.css" />
+<!-- Header -->
+	<div id="header">	
+		<!-- Logo -->
+			<h1><a href="/" id="logo">Goggin Ballroom Dancing <em>Ballroom, Latin, & Swing Lessons</em></a></h1>
+		<!-- Nav -->
+			<nav id="nav">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li>
+						<a href="">Dances</a>
+							<ul>
+								<li><a href="dances">Ballroom</a></li>
+								<li><a href="dances">Latin</a></li>
+								<li><a href="dances">Swing</a></li>			
+							</ul>
+					</li>
+					<li><a href="contact">Contact</a></li>
+					<li><a href="resources">Resources</a></li>
+					<li><a href="photos">Photos</a></li>
+					<li><a href="lessons">Dance Lessons</a></li>
+					<li class="current"><a href="gift">Gift Certificates</a></li>
+					<li><a href="login">Login</a></li>
+				</ul>
+			</nav>
+		</div>
+
+<!-- Main -->
+	<section class="wrapper style1">
+		<div class="container">
+
+			<!-- Content -->
+			
+				<header>
+				<h2><center>Order A Gift Certificate!</center></h2>
+				</header>
+				<div class="container">
+					<p>Please enter your email, the recipient of the gift certificate, the amount, the shipping address, and the method of payment, and the shipping address you would like it to be sent to in the form below.
+					</p>
+				</div>
+				<form action="/sendemail" method="post">
+					<fieldset>
+						<legend>Place an Order</legend>
+						<div>
+							<label class="field">Your name:</label>
+							<input type="text" name="cust" class="textbox" />
+						</div>
+						<div>
+							<label class="field">Email:</label>
+							<input type="text" name="email" class="textbox" />
+						</div>
+						<div>
+							<label class="field">Address:</label>
+							<input type="text" name="address" class="textbox" />
+							<label class="field">City:</label>
+							<input type="text" name="city" class="textbox" />
+							<label class="field">State:</label>
+							<input type="text" name="state" class="textbox" />
+							<label class="field">Zip:</label>
+							<input type="text" name="zip" class="textbox" />
+						</div>
+						<div>
+							<label class="field">Recipient:</label>
+							<input type="text" name="recipient" class="textbox" />
+						</div>
+						<div>
+							<label class="field">Amount:</label>
+							<input type="text" name="amount" class="textbox" />
+						</div>
+						<div>
+							<input type="submit" value="Place Order" />
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</section>
+{% endblock %}

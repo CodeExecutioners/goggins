@@ -1,5 +1,5 @@
 application: dancingoggin
-version: sprint2
+version: sprint2v2
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -37,8 +37,20 @@ handlers:
 - url: /(adminLessons|deleteLessons)
   script: adminLessons.app  
   
+- url: /adminResources
+  script: adminResources.app 
+ 
 
+- url: /succes_message
+
+  script: succes_message.app
   
+
+- url: /contact_mail
+  script: contact_mail.app
+  
+- url: /gift
+  script: gift.app
   
 - url: /login
   script: login.app

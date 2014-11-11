@@ -1,7 +1,7 @@
 {% extends "templates/_base.htm" %}
 {% block bodycontent %}
 		<!-- Main -->
-
+		
 
 			<section class="wrapper style1">
 				<div class="container">
@@ -10,7 +10,7 @@
 							<div id="sidebar">
 
 								<!-- Sidebar -->
-									<button id="btnAddResource">New</button>
+									
 									<section>
 										<h3>Links</h3>
 										<h4>Dance Shoes</h4>
@@ -20,22 +20,6 @@
 										<ul><a href="javascript:hideshow(document.getElementById('link3'))">Chippewa Valley Dance Club</a></ul>
 										
 									</section>
-									<!--
-									<section>
-										<h3>Another Subheading</h3>
-										<ul class="links">
-											<li><a href="#">Amet turpis, feugiat et sit amet</a></li>
-											<li><a href="#">Ornare in hendrerit in lectus</a></li>
-											<li><a href="#">Semper mod quis eget mi dolore</a></li>
-											<li><a href="#">Consequat etiam lorem phasellus</a></li>
-											<li><a href="#">Amet turpis, feugiat et sit amet</a></li>
-											<li><a href="#">Semper mod quisturpis nisi</a></li>
-										</ul>
-										<footer>
-											<a href="#" class="button">More Random Links</a>
-										</footer>
-									</section>
-									-->
 						
 							</div>
 						</div>
@@ -89,6 +73,13 @@
 											<li>ABetter bands, because your advance payment helps us book good bands in advance</li>
 											<li>A stronger dance club: when you join us, all of your membership dues go to the dance club.</li>
 										</ul>
+												<form action="http://maps.google.com/maps" method="get" target="_blank">
+													<h1>Get Directions</h1>
+													<p>Enter your starting address:</p>
+													<input type="text" name="saddr" />
+													<input type="hidden" name="daddr" value="1812 Lynn Av, Altoona, WI" />
+													<input type="submit" value="Get Directions" />
+												</form>
 									</article>
 							</div>
 						</div>

@@ -174,4 +174,75 @@ class Users(ndb.Model):
 		except:
 			logging.error('loginProcess failed')
 			return loginSuccess
+		
+#Alex's stuff			
+class Resource(ndb.Model):
+	type = ndb.StringProperty()
+	title = ndb.StringProperty()
+	linkOrAddress = ndb.StringProperty()
+	desc = ndb.StringProperty()
 	
+	@classmethod
+	def getAllResources(self):
+		try:
+			return self.query()
+		except:
+			logging.error('getAllResource failed')
+			
+	def getAllResourcesByType(self, type):
+		try:
+			return self.query(self.type==type)
+		except:
+			logging.error('getAllLessonsByType failed')
+	
+	@classmethod
+	def getNResources(self, n):
+		try:
+			return self.query().fetch(n)
+		except:
+			logging.error('getNResource failed')
+	
+	#insert
+	@classmethod
+	def insertResource(self, type, title, linkOrAddress, desc):
+		try:
+			resource = self(id = (type + title), type = type, title = title, linkOrAddress = linkOrAddress, desc = desc)
+			resource.put()
+			logging.debug('insertResource success')
+		except:
+			logging.error('insertResource failed')
+	
+
+	#insert
+	@classmethod
+	def updateResourceByID(self, type, title, linkOrAddress, desc):
+			try:
+				resource_key = ndb.Key(self, (type+title))
+				logging.debug(resource_key)
+				updated_resource = resource_key.get()
+				if(updated_resource != None):
+					logging.debug('Updating record')
+					updated_resource.type = type
+					updated_resource.title = title
+					updated_resource.linkOrAddress = linkOrAddress
+					updated_resource.desc = desc
+					updated_resource.put()
+					logging.debug('updateResource success')
+				else:
+					logging.debug('Inserting new record')
+					self.insertResource(type, title, linkOrAddress, desc)
+			except:
+				logging.error('updateResource failed')	
+		
+	#delete
+	@classmethod
+	def deleteAllResources(self):
+		try:
+			resource_keys = self.query().fetch(keys_only=True)
+			ndb.delete_multi(resource_keys)
+			logging.debug('deleteAllResources success')
+		except:
+			logging.error('deleteAllResources failed')
+						
+			
+			
