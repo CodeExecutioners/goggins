@@ -4,6 +4,8 @@ import logging
 from google.appengine.ext import ndb
 
 
+
+
 class Lesson(ndb.Model):
 	"""Models an individual lesson"""
 	type = ndb.StringProperty()
@@ -41,7 +43,7 @@ class Lesson(ndb.Model):
 	def insertLesson(self, type, city, datetime, location, cost):
 			logging.debug('insertLesson start')
 			try:
-				lesson = self(id = (type+city), type = type, city = city, datetime = datetime, location = location, cost = cost)
+				lesson = self(type = type, city = city, datetime = datetime, location = location, cost = cost)
 				lesson.put()
 				logging.debug('insertLesson success')
 			except:
@@ -50,19 +52,25 @@ class Lesson(ndb.Model):
 	
 	#insert
 	@classmethod
-	def updateLessonByID(self, type, city, datetime, location, cost):
+	def updateLessonByID(self, id, type, city, datetime, location, cost):
+			
+			
 			try:
-				lesson_key = ndb.Key(self, (type+city))
-				logging.debug(lesson_key)
-				updated_lesson = lesson_key.get()
-				if(updated_lesson != None):
-					logging.debug('Updating record')
-					updated_lesson.type = type
-					updated_lesson.datetime = datetime
-					updated_lesson.location = location
-					updated_lesson.cost = cost
-					updated_lesson.put()
-					logging.debug('updateLesson success')
+			
+				if(id != 'None'):
+					#lesson_key = ndb.Key(self,id)
+					updated_lesson = Lesson.get_by_id(int(id))
+					logging.debug(updated_lesson)
+				
+					if(updated_lesson != None):
+						logging.debug("Updated city" + updated_lesson.city)
+						updated_lesson.city =city
+						updated_lesson.type = type
+						updated_lesson.datetime = datetime
+						updated_lesson.location = location
+						updated_lesson.cost = cost
+						updated_lesson.put()
+						logging.debug('updateLesson success')
 				else:
 					logging.debug('Inserting new record')
 					self.insertLesson(type, city, datetime, location, cost)
@@ -81,7 +89,19 @@ class Lesson(ndb.Model):
 		except:
 			logging.error('deleteAllLessons failed')
 		
-	
+	#insert
+	@classmethod
+	def deleteLessonByID(self, id):
+			try:
+			
+				if(id != 'None'):
+					delete_lesson = Lesson.get_by_id(int(id))
+					delete_lesson.key.delete()
+					logging.debug('deleteLessonByID success')
+			except:
+				logging.error('deleteLessonByID failed')
+		
+
 		
 	#filtering
 	@classmethod

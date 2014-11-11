@@ -33,16 +33,14 @@
 		<tbody>
 		{% for lesson in lessons %}
 
-            <tr>
-			
+            <tr id="{{lesson.key.id()}}">
 				
-				<td>{{lesson.type}}</td>
 				<td>{{lesson.city}}</td>
 				<td>{{lesson.datetime}}</td>
 				<td>{{lesson.datetime}}</td>
 				<td>{{lesson.location}}</td>
 				<td>{{lesson.cost}}</td>
-				<td><button class='btnEdit'value='Edit'>Edit</button></td>
+				<td><button class='btnEdit'value='Edit'>Edit</button><button class='btnDelete'value='Delete'>Delete</button></td>
 				
             </tr>
 			{% endfor %}
@@ -73,16 +71,14 @@
 		<tbody>
 		{% for groupLesson in groupLessons %}
 
-            <tr>
-			
-				
+              <tr id="{{groupLesson.key.id()}}">
 				<td>{{groupLesson.type}}</td>
 				<td>{{groupLesson.city}}</td>
 				<td>{{groupLesson.datetime}}</td>
 				<td>{{groupLesson.datetime}}</td>
 				<td>{{groupLesson.location}}</td>
 				<td>{{groupLesson.cost}}</td>
-				<td><button class='btnEdit'value='Edit'>Edit</button></td>
+				<td><button class='btnEdit'value='Edit'>Edit</button><button class='btnDelete'value='Delete'>Delete</button></td>
 				
             </tr>
 			{% endfor %}

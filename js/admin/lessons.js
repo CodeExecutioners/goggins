@@ -1,7 +1,7 @@
 
 function AddDropInLesson(){ 
 $("#dropInLessons tbody").append(
- "<tr>"+
+ "<tr id='None'>"+
  "<td><input type='text'/></td>"+
  "<td><input type='text'/></td>"+
  "<td><input type='text'/></td>"+
@@ -17,7 +17,7 @@ $("#dropInLessons tbody").append(
 
 function AddGroupLesson(){ 
 $("#groupLessons tbody").append(
- "<tr>"+
+ "<tr id='None'>"+
  "<td><input type='text'/></td>"+
  "<td><input type='text'/></td>"+
  "<td><input type='text'/></td>"+
@@ -48,7 +48,7 @@ var par = $(this).parent().parent(); //tr
  tdTime.html(tdTime.children("input[type=text]").val());
  tdLocation.html(tdLocation.children("input[type=text]").val());
  tdCost.html(tdCost.children("input[type=text]").val());
- tdButtons.html("<button class='btnDelete'value='Delete'>Delete</button><button class='btnEdit'value='Edit'>Edit</button>");
+ tdButtons.html("<button class='btnEdit'value='Edit'>Edit</button><button class='btnDelete'value='Delete'>Delete</button>");
  $(".btnEdit").bind("click", Edit);
  $(".btnDelete").bind("click", Delete);
  }; 
@@ -78,24 +78,145 @@ var par = $(this).parent().parent(); //tr
  };
 
  function Delete(){
- var par = $(this).parent().parent(); //tr
- par.remove(); 
- /*Figure out how to delete
- var tdType = par.children("td:nth-child(1)");
- var tdCity = par.children("td:nth-child(2)");
- tdType.html(tdType.children("input[type=text]").val()); 
- tdCity.html(tdCity.children("input[type=text]").val());
+ var par = $(this).parent().parent(); //tr)
+ var id = par.attr("id")
+ var array  = {};
+ var rowName = "ID";
+ array[rowName] = id
+ var json = JSON.stringify(array);
+ //alert("DELETE JSON: " + json)
+ json = "["+json+"]";
+ //alert("New JSON" + json);
+ var path='/deleteLessons';
+		$.ajax({
+             type: 'POST',
+			 url:path,
+             data: json,
+			 dataType: 'json',
+			 contentType:'application/json; charset=utf-8',
+             success: function(response) {
+				//alert("Success" + response)
+				alert('redirecting...');
+				window.location = '/adminLessons';
+             },error: function(response){
+				alert("Error with json post" + response);
+			 
+			}
+			
+			
+		});
+		return false;
+	
+	//postLessonsTable('#dropInLessons', path);
+ };
 
- tdLocation.html(tdLocation.children("input[type=text]").val());
- */
  
- }; 
+ 
 
  
+
+function postLessonsTable(tableID, path){
+    var keys = $(tableID +' tbody tr').map(function(i){
+			id = this.id;
+			return id;
+	}).get()   
+	
+	
+		
+		//iterate through table
+	var count = 0;
+	var columns = $(tableID +' thead th').map(function() {
+	  // This assumes that your headings are suitable to be used as
+	  //  JavaScript object keys. If the headings contain characters 
+	  //  that would be invalid, such as spaces or dashes, you should
+	  //  use a regex here to strip those characters out.
+	  count= count+1;
+	  return $(this).text();
+	  
+	});
+	
+	columns[count-1] = "ID";
+	
+			$.each(columns, function( index, value ) {
+				//alert( index + ": " + value );
+			});
+		
+		var tableObject = $(tableID +' tbody tr').map(function(i) {
+		  var row = {};
+
+		 
+		
+		  var lastIndex = 0;
+		  var id  = 0;
+		  // Find all of the table cells on this row.
+		  $(this).find('td').each(function(i) {
+			// Determine the cell's column name by comparing its index
+			//  within the row with the columns list we built previously.
+			
+				var rowName = columns[i];
+				
+				//alert("ID:" +id);
+				// Add a new property to the row object, using this cell's
+				//  column name as the key and the cell's text as the value.
+				//alert("RowName: " + rowName)
+				
+				
+				if(rowName == "ID"){
+					row[rowName] =$(this).parent().attr("id");
+				
+				}else{
+					row[rowName] =$(this).text();
+				}
+				
+			
+			
+			
+		  });
+		  
+		
+		 
+		  // Finally, return the row's object representation, to be included
+		  //  in the array that $.map() ultimately returns.
+		  
+		  
+		  return row;
+		 
+		// Don't forget .get() to convert the jQuery set to a regular array.
+		}).get();
+		
+		
+		
+		jsonTable = JSON.stringify(tableObject);
+		alert("tableObject:" + jsonTable);
+		
+		
+		
+		$.ajax({
+             type: 'POST',
+			 url:path,
+             data: jsonTable,
+			 dataType: 'json',
+			 contentType:'application/json; charset=utf-8',
+             success: function(response) {
+				//alert("Success" + response)
+				alert('redirecting...');
+				window.location = '/adminLessons';
+             },error: function(response){
+				alert("Error with json post" + response);
+			 
+			}
+			
+			
+		});
+		return false;
+		
+	};
+	
+	
+
+
 
 $(document).ready(function() {
-//var table = $('#lessonsDropIn').DataTable();
-
 
 
 $(function(){ //Add, Save, Edit and Delete functions code
@@ -106,152 +227,26 @@ $(function(){ //Add, Save, Edit and Delete functions code
  $("#btnAddGroupLesson").bind("click", AddGroupLesson);
  });
  
+ //post for the drop in table
+ $('#dropInLessonsSaveTable').on('click', function (event) {
+	event.preventDefault();
+	path = '/adminLessons'
+	postLessonsTable('#dropInLessons', path);
+ });
 
  
-$('#dropInLessonsSaveTable').on('click', function (event) {
+ //post for the group lessons table
+ $('#groupLessonsSaveTable').on('click', function (event) {
 		event.preventDefault();
-        
-		
-		//iterate through table
-	var columns = $('#dropInLessons thead th').map(function() {
-	  // This assumes that your headings are suitable to be used as
-	  //  JavaScript object keys. If the headings contain characters 
-	  //  that would be invalid, such as spaces or dashes, you should
-	  //  use a regex here to strip those characters out.
-	  return $(this).text();
-		});
-
-		
-		var tableObject = $('#dropInLessons tbody tr').map(function(i) {
-		  var row = {};
-		 
-		  // Find all of the table cells on this row.
-		  $(this).find('td').each(function(i) {
-			// Determine the cell's column name by comparing its index
-			//  within the row with the columns list we built previously.
-			var rowName = columns[i];
-		 
-			// Add a new property to the row object, using this cell's
-			//  column name as the key and the cell's text as the value.
-			row[rowName] = $(this).text();
-		  });
-		 
-		  // Finally, return the row's object representation, to be included
-		  //  in the array that $.map() ultimately returns.
-		  return row;
-		 
-		// Don't forget .get() to convert the jQuery set to a regular array.
-		}).get();
-		
-		
-		
-		jsonTable = JSON.stringify(tableObject);
-		alert("tableObject:" + jsonTable);
-		
-		
-		
-		$.ajax({
-             type: 'POST',
-			 url:'/adminLessons',
-             data: jsonTable,
-			 dataType: 'json',
-			 contentType:'application/json; charset=utf-8',
-             success: function(response) {
-				alert("Success" + response)
-             },error: function(response){
-				alert("Error with json post" + response);
-			 
-			}
-		});
-		return false;
-		
-	});
-	
-	
-	
-	
-	
-	
-	
+    path = '/adminLessons'
+	postLessonsTable('#groupLessons', path);
+ });   
  
-$('#groupLessonsSaveTable').on('click', function (event) {
-		event.preventDefault();
-        
-		
-		//iterate through table
-	var columns = $('#groupLessons thead th').map(function() {
-	  // This assumes that your headings are suitable to be used as
-	  //  JavaScript object keys. If the headings contain characters 
-	  //  that would be invalid, such as spaces or dashes, you should
-	  //  use a regex here to strip those characters out.
-	  return $(this).text();
-		});
+ });
 
-		
-		var tableObject = $('#groupLessons tbody tr').map(function(i) {
-		  var row = {};
-		 
-		  // Find all of the table cells on this row.
-		  $(this).find('td').each(function(i) {
-			// Determine the cell's column name by comparing its index
-			//  within the row with the columns list we built previously.
-			var rowName = columns[i];
-		 
-			// Add a new property to the row object, using this cell's
-			//  column name as the key and the cell's text as the value.
-			row[rowName] = $(this).text();
-		  });
-		 
-		  // Finally, return the row's object representation, to be included
-		  //  in the array that $.map() ultimately returns.
-		  return row;
-		 
-		// Don't forget .get() to convert the jQuery set to a regular array.
-		}).get();
-		
-		
-		
-		jsonTable = JSON.stringify(tableObject);
-		alert("tableObject:" + jsonTable);
-		
-		
-		
-		$.ajax({
-             type: 'POST',
-			 url:'/lessons',
-             data: jsonTable,
-			 dataType: 'json',
-			 contentType:'application/json; charset=utf-8',
-             success: function(response) {
-				alert("Success" + response)
-             },error: function(response){
-				alert("Error with json post" + response);
-			 
-			}
-		});
-		return false;
-		
-	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-});
+ 
+ 
+ 
 
 
-
-
-
+ 

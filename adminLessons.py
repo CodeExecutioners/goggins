@@ -17,6 +17,8 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 	
 class AdminLessonsPage(webapp2.RequestHandler):
 	def get(self):
+			
+	
 		#models.Lesson.deleteAllLessons()
 		dropInlessons = models.Lesson.getAllLessonsByType('Drop')
 		groupLessons = models.Lesson.getAllLessonsByType('Group')
@@ -37,18 +39,41 @@ class AdminLessonsPage(webapp2.RequestHandler):
 		#update or insert
 		for lesson in jsonObject:
 			#models.Lesson.deleteAllLessons()
+			id= lesson['ID']
+			logging.debug("ID: " +id)
 			type = lesson['Type']
 			city = lesson['City']
 			date = lesson['Date']
 			location = lesson['Location']
 			cost = lesson['Cost']
-			models.Lesson.updateLessonByID(type, city, date, location, cost)
+			models.Lesson.updateLessonByID(id, type, city, date, location, cost)
 			#models.Lesson.insertLesson(id, city, date, location, cost)
 			
 		
-		#self.redirect('/lessons')	
 		
-
+		
+class DeleteLessonsHandler(webapp2.RequestHandler):
+	
+	
+	def post(self):
+		logging.debug('DeleteLessonsHandler')
+		#get all the table data
+		jsonstring = self.request.body
+		self.response.out.write(jsonstring)
+		jsonObject = json.loads(jsonstring)
+		logging.debug('JSON DECODED')
+		logging.debug(jsonObject[0])
+		id = (jsonObject[0])['ID']
+		logging.debug("ID: " +id)
+		#delete
+		#for lesson in jsonObject:
+		#	id= lesson[0]
+		models.Lesson.deleteLessonByID(id)
+			
+		
+		
+	
 app = webapp2.WSGIApplication([
 			('/adminLessons', AdminLessonsPage),
+			('/deleteLessons', DeleteLessonsHandler),
 			],debug=True)

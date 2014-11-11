@@ -19,7 +19,7 @@ import urllib
 import webapp2
 import jinja2
 import models
-
+from google.appengine.api import users
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -42,6 +42,7 @@ class LoginHandler(webapp2.RequestHandler):
 			self.redirect('/')
 		else:
 			self.redirect('/login')
+			self.response.out.write
 		
 app = webapp2.WSGIApplication([
     ('/login', LoginHandler),

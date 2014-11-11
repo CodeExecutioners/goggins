@@ -34,8 +34,10 @@ handlers:
 - url: /lessons
   script: lessons.app 
   
-- url: /adminLessons
+- url: /(adminLessons|deleteLessons)
   script: adminLessons.app  
+  
+
   
   
 - url: /login

@@ -10,15 +10,14 @@
 								<header>
 									<h2><center>Login</center></h2>
 								</header>
-								<div id = "loginError">Invalid credentials</div>
-								<form method="post" action="/login">
-									<input type="text" name="username" placeholder="Username"></input>
-									<input type="text" name="password" placeholder="Password"></input>
-									<input type="submit" value="Login"></input>
-								</form>
 								
-					</div>
-				</div>
+								<form id="loginForm" method="post" action="/login">
+									<input type="text" name="username" required="true" placeholder="Username" ></input>
+									<input type="text" name="password" required="true" placeholder="Password"></input>
+									<input type="submit" value="Login"></input>
+								
+				
+								</form
 			</section>			
 
 		<!-- Footer -->
