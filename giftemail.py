@@ -31,8 +31,8 @@ class EmailHandler(webapp2.RequestHandler):
     def get(self):
         path = self.request.path
     def post(self):
-        user_address = "debrouta@uwec.edu"
-        sender_address = self.request.get("email")
+        user_address = self.request.get("email")
+        sender_address = "fisher.robert26@gmail.com"
         subject = "Gift Certificate"
         cust = self.request.get("cust")
         print cust
@@ -59,9 +59,9 @@ class EmailHandler(webapp2.RequestHandler):
             print body
 
             mail.send_mail(sender_address, user_address, subject, body)
-
+            self.redirect('/succes_message')
 app = webapp2.WSGIApplication([
-('/sendemail', EmailHandler),
+('/giftemail', EmailHandler),
  
 
 ], debug=True)

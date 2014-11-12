@@ -36,13 +36,13 @@ class Login2Handler(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('templates/contact.html')
 		self.response.write(template.render(template_values))
 	def post(self):
-		user_address = self.request.get("mail1")
+		user_address = self.request.get("inputEmail")
 		me = "; fisher.robert26@gmail.com"
 		user_address=user_address+me
 		confirmation_url = "www.google.com"
 		sender_address = "<fisher.robert26@gmail.com>"
-		subject = self.request.get("subject")
-		body = self.request.get("message")
+		subject = self.request.get("inputSubject")
+		body = self.request.get("inputMessage")
 		mail.send_mail(sender_address, user_address, subject, body)
 		self.redirect('/succes_message')
 app = webapp2.WSGIApplication([

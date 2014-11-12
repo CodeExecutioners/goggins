@@ -22,6 +22,9 @@ handlers:
   static_dir: sass
   
   
+- url: /giftemail
+  script: giftemail.app
+  
 - url: /contact
   script: contact.app 
  
